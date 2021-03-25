@@ -1,1 +1,1 @@
-module "rabbitmq-example"
+module github.com/s0xzwasd/go-rabbitmq-example
