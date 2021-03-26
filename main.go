@@ -11,7 +11,13 @@ func main() {
 		fmt.Println(err)
 		panic(err)
 	}
-	defer conn.Close()
+	defer func(conn *amqp.Connection) {
+		err := conn.Close()
+		if err != nil {
+			fmt.Println(err)
+			panic(err)
+		}
+	}(conn)
 
 	fmt.Println("Successfully connected to RabbitMQ instance")
 
@@ -20,7 +26,13 @@ func main() {
 		fmt.Println(err)
 		panic(err)
 	}
-	defer ch.Close()
+	defer func(ch *amqp.Channel) {
+		err := ch.Close()
+		if err != nil {
+			fmt.Println(err)
+			panic(err)
+		}
+	}(ch)
 
 	q, err := ch.QueueDeclare("TestQueue", false, false, false, false, nil)
 	if err != nil {
